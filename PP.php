@@ -11,7 +11,7 @@ $company->repaymentdate='20/3/2023';
 //var_dump($company->loanbalance(5006).$company->checkpaymentmade());
 //var_dump($company->booldays('2023-07-10'));
 echo '<br>';
-var_dump($company->calculaterate('pulloutt'));
+//var_dump($company->calculaterate('pulloutt'));
 //echo companydata::getdate(5);
 
 
