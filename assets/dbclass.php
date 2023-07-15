@@ -29,8 +29,6 @@ class dbclass extends companydata {
 
     public function closeConnection() {
         mysqli_close($this->connection);
-    }public function register(){
-        session_start();
     }
     public function validatelogin($phone,$pass){
         $phone = mysqli_real_escape_string($this->connection, $_POST['phone']);
@@ -227,6 +225,33 @@ class dbclass extends companydata {
         //subtract from the lendees database
         //update amount to the lender
     }
+    public function register( $user_id,$fname, $lname, $phone,$account, $password, $img) {
+        $fname = mysqli_real_escape_string($this->connection, $fname);
+        $user_id = mysqli_real_escape_string($this->connection, $user_id);
+        $lname = mysqli_real_escape_string($this->connection, $lname);        
+        $accno = mysqli_real_escape_string($this->connection, $account);
+        $phone = mysqli_real_escape_string($this->connection, $phone);
+        $password = mysqli_real_escape_string($this->connection, $password);
+        $image = mysqli_real_escape_string($this->connection, $img);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $ran_id = rand(time(), 100000000);
+        $fuliza=0;
+        $amount=0;
+        $query = "INSERT INTO users ( $user_id,$fname, $lname, $phone,$account, $password, $img) 
+                  VALUES ('$ran_id','$user_id','$fname', '$lname', '$phone', '$accno', '$hashedPassword','$image','$amount','$fuliza')";
+        $result = mysqli_query($this->connection, $query);
+        if ($result) {
+        session_start();
+        $_SESSION['id'] = $ran_id;
+            header('Location:list.php');
+            exit();
+        } else {
+            header('Location:lndex.php');
+            exit();
+        }
+        mysqli_close($this->connection);
+    }
+    
 }
 
 ?>

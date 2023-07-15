@@ -13,10 +13,11 @@
     <li><a href="#" onclick="showForm('myForm1')">Load Money</a></li>
     <li><a href="#" onclick="showForm('myForm2')">Lend Money</a></li>
     <li><a href="#" onclick="showForm('myForm3')">Withdraw</a></li>
-    <li><a href="#" onclick="showForm('form4')">Financial Statements</a></li>
+    <li><a href="#" onclick="showForm('myForm4')">Financial Statements</a></li>
     <li><a href="#" onclick="showForm('myForm5')">Pull Out</a></li>
     <li><a href="#" onclick="showForm('myForm6')">Repay Loan</a></li>
    </ol> 
+ </div>
    <form id="myForm2" style="display: none;">
     <input type="number" name="amount" placeholder="Enter amount">
     <input type="number" name="phone" placeholder="Enter phone number">
@@ -50,7 +51,7 @@
   </p>
     <input type="submit" value="Submit">
   </form>
-  <table id="form4" style="display: none;">
+  <table id="myForm4" style="display: none;">
     <thead>
         <th>User ID</th>
         <th>Date</th>
@@ -78,6 +79,9 @@ function showForm(formId) {
     forms[i].style.display = 'none';
   }
   document.getElementById(formId).style.display = 'block';
+  setTimeout(function() {
+    document.getElementById(formId).style.display = 'none';
+  }, 30000);
 }
 </script>
 </body>
