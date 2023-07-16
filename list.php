@@ -1,3 +1,10 @@
+<?php 
+  session_start();
+  if(!isset($_SESSION['id'])){
+    header("location: lndex.php");
+  }
+  ?> 
+  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,19 +25,20 @@
     <li><a href="#" onclick="showForm('myForm6')">Repay Loan</a></li>
    </ol> 
  </div>
-   <form id="myForm2" style="display: none;">
-    <input type="number" name="amount" placeholder="Enter amount">
+   <form id="myForm2" method='POST' action="LISTO.php" style="display: none;">
+    <input type="number" name="nt" placeholder="Enter amount">
+    <input type="number" name="day" placeholder="days to repay">
     <input type="number" name="phone" placeholder="Enter phone number">
     <input type="submit" value="Submit">
   </form>
 
   <form id="myForm1" style="display: none;">
-    <input type="number" name="amount" placeholder="Enter amount">
+    <input type="number" name="PESA" placeholder="Enter amount">
     <input type="submit" value="Submit">
   </form>
 
   <form id="myForm3" style="display: none;">
-    <input type="number" name="amount" placeholder="Enter amount">
+    <input type="number" name="nt" placeholder="Enter amount">
     <input type="submit" value="Submit">
   </form>
   <form id="myForm5" style="display: none;">

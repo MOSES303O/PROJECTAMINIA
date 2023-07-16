@@ -9,14 +9,14 @@ class companydata {
     public string $repaymentdate;
     public int $paidloan;
     protected  $name,$emailid,$phone_no,$address,$city,$state,$pin;
-    public function __construct(int $loan,int $amount,string $repaymentdate,string $amountstatus,int $paidloan){
+    /*public function __construct(int $loan,int $amount,string $repaymentdate,string $amountstatus,int $paidloan){
         $this->$amount = $amount;
         $this->$repaymentdate = $repaymentdate;
         $this->$paidloan = $paidloan;
         $this->$amountstatus = $amountstatus;
         $this->$loan =$loan ;
         
-    }      
+    }  */    
     protected function calculaterate($amountstatus) {
         //working
         $reschedule = false;
