@@ -10,7 +10,7 @@
 <div class="wrapper">
         <section class="form signup">
             <header>OCHIENG'S ENTERPRISE </header>
-            <form action="PP.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <form action="LISTOO.php" method="POST" enctype="multipart/form-data" autocomplete="off">
                 <div class="error-text"></div>
                 <div class="name-details">
                     <div class="field input">

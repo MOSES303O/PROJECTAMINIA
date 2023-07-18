@@ -22,8 +22,7 @@ class dbclass extends companydata {
         }
     }
 
-    public function getConnection() {
-        echo 'connection made successfully';
+    public function getConnection() {       
         return $this->connection;
     }
 
@@ -73,7 +72,7 @@ class dbclass extends companydata {
             sleep(1);
         }
         $this->closeConnection();
-    }
+    } 
     private function getamount($id){
         //working f
         $query = "SELECT amount FROM users WHERE id='$id'";
@@ -101,7 +100,7 @@ class dbclass extends companydata {
         // Return the value of $amount
         return $amount;
     }
-    private function getcompanyamount($row){
+    private function getcompanyamount($roow){
         //working
         $query = "SELECT*FROM companydata WHERE id='$this->companyid'";
     // Execute the query
@@ -109,7 +108,7 @@ class dbclass extends companydata {
     $row = mysqli_fetch_assoc($result);
 
         // Retrieve the value of $amount from the row
-        $amount = $row[$row];
+        $amount = $row[$roow];
         // Free the result set
         mysqli_free_result($result);
         // Return the value of $amount
@@ -129,8 +128,9 @@ class dbclass extends companydata {
         //working
         //update amount in database here...  
         $status='loan';
-        $sql = "INSERT INTO Transaction (user_id, date, liability,status,phone1,phone2)
-        VALUES('$user_id','$date','$liability','$status','$phone1','$phone2')";
+        $paystatus=false;
+        $sql = "INSERT INTO Transaction (user_id, date, liability,status,phone1,phone2,paystatus)
+        VALUES('$user_id','$date','$liability','$status','$phone1','$phone2','$paystatus')";
         mysqli_query($this->connection,$sql);
         //work on the rates your desire
         $pesa=$this->getamountt($phone2);
@@ -155,6 +155,7 @@ class dbclass extends companydata {
             $sqll = "UPDATE users SET amount= '$mbesa' WHERE id='$id'";
             mysqli_query($this->connection,$sqll);
     }public function pullout($amount,$id,){
+        
         //get all assets from the database
         $amountstatus='loan';
         $sql = mysqli_query($this->connection, "SELECT*FROM transaction WHERE status = '{$amountstatus}'");
@@ -190,11 +191,11 @@ class dbclass extends companydata {
             }
         }                       
     }
-    public function repay($setdate,$amount,$databseamont,$paystatus,$dd){
+    public function repay($setdate,$amount,$dd){
+        //repay
         //check repayment  date
         if($this->booldays($setdate)===false){   
-            //fetch amount status from the database
-            if($amount<$databseamont||$paystatus===true){
+            //fetch amount status from the database            
                 $query = "SELECT*FROM transaction WHERE liability='$amount'";
                 // Execute the query
                 $result = mysqli_query($this->connection, $query);
@@ -217,19 +218,18 @@ class dbclass extends companydata {
                         //get amount from users db and subtract
                         $newbalance=$this->getamount($dd)-$amount;
                $sl = "UPDATE users SET  amount='{$newbalance}' WHERE id='{$dd}'";
-               mysqli_query($this->connection,$sl);
-            }else{
-            } 
+               mysqli_query($this->connection,$sl);           
         }else{
-            $sult = mysqli_query($this->connection, "SELECT*FROM transaction WHERE liability='$amount'");
+            $sult = mysqli_query($this->connection, "SELECT*FROM Transaction WHERE liability='$amount'");
             $row = mysqli_fetch_assoc($sult);
             $mula=$row['liability']-$amount;   
             $statuu=true;       
-            $qll = "UPDATE transaction SET liability='$mula' paystatus='$statuu'WHERE liability='{$amount}'";
+            $qll = "UPDATE Transaction SET liability='$mula',paystatus='$statuu'WHERE liability='{$amount}'";
             mysqli_query($this->connection,$qll);
             //reduce asses,increase accbalance,resetdate
             $ql="SELECT * FROM companydata ";
             $reslt = mysqli_query($this->connection, $ql);
+            mysqli_free_result($reslt);
             $roww = mysqli_fetch_assoc($reslt);            
                 // Retrieve the value of $amount from the row
                     $rrt=$roww['accbalance']+$amount;
@@ -267,10 +267,11 @@ class dbclass extends companydata {
             if(mysqli_num_rows(mysqli_query($this->connection,"SELECT*FROM users WHERE phone='{$phone}'"))>0){
                 session_start();
                 $rest=mysqli_fetch_assoc(mysqli_query($this->connection,"SELECT*FROM users WHERE phone='{$phone}'"));
-                $_SESSION['id'] = $rest['user_id'];
-            }        
+                $_SESSION['id'] = $rest['user_id'];                
+            }  
             header('Location:list.php');
-            exit();
+                exit();      
+            
         } else {
             header('Location:lndex.php');
             exit();

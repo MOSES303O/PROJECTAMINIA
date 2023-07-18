@@ -10,7 +10,7 @@
 <div class="wrapper">
     <section class="form login">
       <header>OCHIENG'S ENTERPRISE</header>
-      <form action="LISTO.php" method="POST" enctype="multipart/form-data" autocomplete="off">
+      <form action="LISTP.php" method="POST" enctype="multipart/form-data" autocomplete="off">
         <div class="error-text"></div>
         <div class="field input">
           <label>PHONE NUMBER</label>
