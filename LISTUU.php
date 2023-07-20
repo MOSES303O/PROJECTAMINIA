@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      $ph = $roow['phone'];
      mysqli_free_result($resul);
     $comp->lendmoney($pesa,$_SESSION['id'],$am,$days,$pesa,$ph,$phoney);
+    header('Location:list.php');
 
 }//lend money
 ?>

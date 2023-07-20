@@ -1,18 +1,31 @@
 <?php 
-  session_start();
-require_once'assets/companydata.php';
- require_once'assets/dbclass.php';
-$comp=new dbclass('localhost','root','','customer');
-  $comp->getConnection();
-  if(!isset($_SESSION['id'])){
-    header("location: lndex.php");
-  }
-  $idd=$_SESSION['id'];
-  // Execute the query
-  $sult = mysqli_query($comp->getConnection(), "SELECT*FROM users WHERE id='$idd'");
-  $row = mysqli_fetch_assoc($sult);
-      mysqli_free_result($sult);
-  ?> 
+ session_start();
+ require_once'assets/companydata.php';
+  require_once'assets/dbclass.php';
+ $comp=new dbclass('localhost','root','','customer');
+   $comp->getConnection();
+   if(!isset($_SESSION['id'])){
+     header("location: lndex.php");
+   }
+   $idd=$_SESSION['id'];
+   // Execute the query
+   $sult = mysqli_query($comp->getConnection(), "SELECT*FROM users WHERE id='$idd'");
+   if ($sult && mysqli_num_rows($sult) > 0) {
+    // Fetch the row as an associative array
+    $row = mysqli_fetch_assoc($sult);
+
+    // Free the result set after fetching the row
+    mysqli_free_result($sult);
+
+    // Access the elements of the $row array safely
+    $userid = isset($row['user_id']) ? $row['user_id'] : '';
+    $simu = isset($row['phone']) ? $row['phone'] : '';
+}
+   //$row = mysqli_fetch_assoc($sult);
+   //mysqli_free_result($sult);
+   //$userid = $row['user_id'];
+   //$simu = $row['phone'];
+?>
   
 <!DOCTYPE html>
 <html lang="en">
@@ -51,15 +64,15 @@ $comp=new dbclass('localhost','root','','customer');
     <input type="submit" value="Withdraw">
   </form>
   <?php
-   $userid = $row['user_id'];
-   $simu = $row['phone'];
+  $userid = $row['user_id'];
+  $simu = $row['phone'];
 if (mysqli_num_rows(mysqli_query($comp->getConnection(), "SELECT liability FROM transaction WHERE phone2='$simu'and user_id='$userid'")) > 0) {
   $rowsCount = mysqli_num_rows(mysqli_query($comp->getConnection(), "SELECT liability FROM transaction WHERE phone2='$simu'and user_id='$userid'"));
 $count_result = mysqli_query($comp->getConnection(), "SELECT COUNT(liability) as count FROM Transaction");
 $count_row = mysqli_fetch_assoc($count_result);
 $count = $count_row['count'];
 ?>
-    <form id="myForm5"  style="display: none;">
+    <form id="myForm6" method='POST' action="LISTO.php" style="display: none;">
     <p>
      <label><h2>Lended</h2></label><br>
      <?php
@@ -90,7 +103,7 @@ $count_result = mysqli_query($comp->getConnection(), "SELECT COUNT(liability) as
 $count_row = mysqli_fetch_assoc($count_result);
 $count = $count_row['count'];
 ?>
-   <form id="myForm6" method='POST' action="LISTO.php" style="display: none;">
+   <form id="myForm5"  style="display: none;">
     <?php
     // Fetch rows one by one and create radio buttons
     $counter = 0;

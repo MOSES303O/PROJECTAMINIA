@@ -6,5 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $row = mysqli_fetch_assoc($sult);
       mysqli_free_result($sult);
   $comp->repay($row['date'],$pesa,$_SESSION['id']);
+  header('Location:list.php');
 }
 ?>

@@ -226,20 +226,20 @@ class dbclass extends companydata {
             $statuu=true;       
             $qll = "UPDATE Transaction SET liability='$mula',paystatus='$statuu'WHERE liability='{$amount}'";
             mysqli_query($this->connection,$qll);
-            //reduce asses,increase accbalance,resetdate
-            $ql="SELECT * FROM companydata ";
-            $reslt = mysqli_query($this->connection, $ql);
-            mysqli_free_result($reslt);
+            //reduce asses,increase accbalance,resetdate        
+            $reslt = mysqli_query($this->connection, "SELECT * FROM companydata ");
+            if($reslt){
+            //mysqli_free_result($reslt);
             $roww = mysqli_fetch_assoc($reslt);            
                 // Retrieve the value of $amount from the row
                     $rrt=$roww['accbalance']+$amount;
                     $rrk=$roww['assets']-$amount;
-                    $s = "UPDATE companydata SET date='date('Y-m-d')' liability='$rrt',assets='{$rrk}'";
-                     mysqli_query($this->connection,$s);
+                    $tarehe=date('Y-m-d');                   
+                     mysqli_query($this->connection,"UPDATE companydata SET date='$tarehe',liability='$rrt',assets='$rrk'");
                      //get amount from users db and subtract
                      $newbalance=$this->getamount($dd)-$amount;                
-            $sql = "UPDATE users SET  amount='$newbalance' WHERE id='{$dd}'";
-            mysqli_query($this->connection,$sql);
+            mysqli_query($this->connection, "UPDATE users SET  amount='$newbalance' WHERE id='{$dd}'");
+            }
         }
         //show all the owned amount
         //get all the money plus lenders id
@@ -264,12 +264,14 @@ class dbclass extends companydata {
                   VALUES ('$ran_id','$user_id','$fname', '$lname', '$phone', '$accno', '$hashedPassword','$image','$amount','$fuliza')";
         $result = mysqli_query($this->connection, $query);
         if ($result) {            
-            if(mysqli_num_rows(mysqli_query($this->connection,"SELECT*FROM users WHERE phone='{$phone}'"))>0){
-                session_start();
+            if(mysqli_num_rows(mysqli_query($this->connection,"SELECT*FROM users WHERE phone='{$phone}'"))>0){            
                 $rest=mysqli_fetch_assoc(mysqli_query($this->connection,"SELECT*FROM users WHERE phone='{$phone}'"));
-                $_SESSION['id'] = $rest['user_id'];                
-            }  
-            header('Location:list.php');
+                if($rest){
+                session_start();
+                $_SESSION['id'] = $rest['id']; 
+                }               
+            }            
+            header('Location: list.php');
                 exit();      
             
         } else {
